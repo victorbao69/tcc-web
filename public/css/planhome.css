@@ -1,0 +1,690 @@
+/* ==========================================================
+   PlanHome - tema visual do site
+   Baseado no app mobile (tccmovel): marrom + bege, cantos
+   arredondados, bordas finas e nada de sombras pesadas.
+
+   Este arquivo é carregado DEPOIS do styles.css (Bootstrap),
+   então tudo aqui sobrescreve o visual antigo (laranja).
+   ========================================================== */
+
+/* ---------- 1. Paleta (mesmas cores do cores_app.dart) ---------- */
+:root {
+    --marrom-escuro: #5F3A1A;
+    --marrom-medio: #8B5E3C;
+    --bege: #F7F4EE;
+    --bege-claro: #F7E9D4;
+    --cinza-borda: #D3D1C7;
+    --cinza-texto: #888780;
+    --texto-escuro: #2C2C2A;
+    --areia: #D4B896;
+    --perigo: #C0392B;
+    --marrom-desabilitado: #B4967A;
+}
+
+/* ---------- 2. Base da página ---------- */
+body,
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: Georgia, 'Times New Roman', serif;
+}
+
+body {
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bege);
+    color: var(--texto-escuro);
+}
+
+a {
+    color: var(--marrom-escuro);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--marrom-medio);
+}
+
+.ph-main {
+    flex: 1;
+}
+
+/* ---------- 3. Barra de navegação (equivale à AppBar do app) ---------- */
+.ph-navbar {
+    background-color: var(--marrom-escuro);
+    padding: 10px 0;
+}
+
+.ph-marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--bege-claro);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.ph-marca:hover {
+    color: #fff;
+}
+
+/* Logo: quadrado arredondado bege com um anel marrom (igual à splash do app) */
+.ph-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background-color: var(--bege-claro);
+}
+
+.ph-logo::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--marrom-escuro);
+}
+
+.ph-logo-grande {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+}
+
+.ph-logo-grande::after {
+    width: 26px;
+    height: 26px;
+    border-width: 3px;
+}
+
+/* Links do menu: o link da página atual ganha um "chip" bege, como na NavigationBar */
+.ph-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 0;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--bege-claro);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ph-link:hover {
+    background-color: rgba(247, 233, 212, 0.15);
+    color: #fff;
+}
+
+.ph-link.ativo {
+    background-color: var(--bege-claro);
+    color: var(--marrom-escuro);
+}
+
+.ph-usuario {
+    color: var(--areia);
+    font-size: 0.85rem;
+    padding: 0 6px;
+}
+
+/* Bolinha com a quantidade de itens no carrinho */
+.ph-contador {
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background-color: var(--perigo);
+    color: #fff;
+    font-size: 0.7rem;
+    line-height: 18px;
+    text-align: center;
+}
+
+/* ---------- 4. Faixa de título das páginas (mesmo degradê do login do app) ---------- */
+.ph-topo {
+    background: linear-gradient(135deg, var(--marrom-escuro), var(--marrom-medio));
+    padding: 34px 0 30px;
+}
+
+.ph-topo h1 {
+    margin: 0;
+    color: var(--bege-claro);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.ph-topo p {
+    margin: 6px 0 0;
+    color: var(--areia);
+    font-size: 0.85rem;
+    font-weight: 300;
+}
+
+/* ---------- 5. Botões (raio 12, igual ao app) ---------- */
+.ph-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 13px 20px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.ph-btn-primario {
+    background-color: var(--marrom-escuro);
+    color: var(--bege-claro);
+}
+
+.ph-btn-primario:hover {
+    background-color: var(--marrom-medio);
+    color: var(--bege-claro);
+}
+
+.ph-btn-primario:disabled {
+    background-color: var(--marrom-desabilitado);
+    cursor: not-allowed;
+}
+
+.ph-btn-contorno {
+    background-color: transparent;
+    border-color: var(--cinza-borda);
+    color: #5F5E5A;
+}
+
+.ph-btn-contorno:hover {
+    background-color: var(--bege-claro);
+    color: var(--marrom-escuro);
+}
+
+.ph-btn-perigo {
+    background-color: transparent;
+    border-color: rgba(192, 57, 43, 0.4);
+    color: var(--perigo);
+}
+
+.ph-btn-perigo:hover {
+    background-color: rgba(192, 57, 43, 0.08);
+    color: var(--perigo);
+}
+
+.ph-btn-claro {
+    background-color: var(--bege-claro);
+    color: var(--marrom-escuro);
+}
+
+.ph-btn-claro:hover {
+    background-color: #fff;
+    color: var(--marrom-escuro);
+}
+
+/* Botão pequeno (raio 8), usado dentro dos cartões de produto */
+.ph-btn-pequeno {
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+}
+
+.ph-btn-bloco {
+    width: 100%;
+}
+
+/* Botão só com ícone (mais, menos, lixeira) */
+.ph-icone-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--marrom-escuro);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ph-icone-btn:hover {
+    background-color: var(--bege-claro);
+}
+
+.ph-icone-perigo {
+    color: var(--perigo);
+}
+
+/* ---------- 6. Cartões (raio 14, borda fina, sem sombra) ---------- */
+.ph-card {
+    background-color: #fff;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.ph-card-sm {
+    border-radius: 12px;
+    padding: 14px;
+}
+
+/* ---------- 7. Formulários ---------- */
+.ph-rotulo {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--cinza-texto);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.ph-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 10px;
+    background-color: #fff;
+    color: var(--texto-escuro);
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.ph-input::placeholder {
+    color: var(--cinza-borda);
+}
+
+.ph-input:focus {
+    outline: 0;
+    border-color: var(--marrom-medio);
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.15);
+}
+
+.ph-input-pequeno {
+    width: auto;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+/* Campo com ícone dentro (e-mail, senha...) */
+.ph-campo {
+    position: relative;
+}
+
+.ph-campo > i {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--cinza-borda);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.ph-campo > .ph-input {
+    padding-left: 40px;
+}
+
+/* ---------- 8. Login e cadastro ---------- */
+.ph-auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+.ph-auth-cartao {
+    width: 100%;
+    max-width: 430px;
+    overflow: hidden;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 16px;
+    background-color: #fff;
+}
+
+.ph-auth-topo {
+    padding: 32px 28px 30px;
+    background: linear-gradient(135deg, var(--marrom-escuro), var(--marrom-medio));
+}
+
+.ph-auth-topo .ph-logo {
+    margin-bottom: 18px;
+}
+
+.ph-auth-topo h1 {
+    margin: 0;
+    color: var(--bege-claro);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.ph-auth-topo p {
+    margin: 6px 0 0;
+    color: var(--areia);
+    font-size: 0.85rem;
+    font-weight: 300;
+}
+
+.ph-auth-corpo {
+    padding: 26px 28px 28px;
+}
+
+/* ---------- 9. Avisos ---------- */
+.ph-alerta {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    font-size: 0.85rem;
+}
+
+.ph-alerta ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.ph-alerta-sucesso {
+    background-color: #E9F1E6;
+    border-color: #BFD5B8;
+    color: #2F5A29;
+}
+
+.ph-alerta-erro {
+    background-color: #FBEEEB;
+    border-color: #EBC5BD;
+    color: #8E2A1B;
+}
+
+/* ---------- 10. Catálogo de produtos ---------- */
+.ph-produto {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 14px;
+}
+
+.ph-produto-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: var(--bege-claro);
+    object-fit: cover;
+}
+
+.ph-produto-nome {
+    overflow: hidden;
+    margin: 0;
+    color: var(--texto-escuro);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ph-produto-desc {
+    min-height: 2.6em;
+    margin: 2px 0 0;
+    color: var(--cinza-texto);
+    font-size: 0.75rem;
+    line-height: 1.3;
+}
+
+.ph-produto-vendedor {
+    margin: 4px 0 0;
+    color: var(--cinza-texto);
+    font-size: 0.7rem;
+}
+
+.ph-preco {
+    margin: 6px 0 10px;
+    color: var(--marrom-escuro);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.ph-produto-acoes {
+    display: flex;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.ph-produto-acoes > .ph-btn,
+.ph-produto-acoes > form {
+    flex: 1;
+}
+
+.ph-produto-acoes form .ph-btn {
+    width: 100%;
+}
+
+/* Etiqueta arredondada (categoria e status) */
+.ph-selo {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background-color: var(--bege-claro);
+    color: var(--marrom-medio);
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.ph-selo-pendente { background-color: var(--bege-claro); color: var(--marrom-medio); }
+.ph-selo-pago { background-color: #E6EDF4; color: #35597C; }
+.ph-selo-enviado { background-color: var(--marrom-medio); color: var(--bege-claro); }
+.ph-selo-concluido,
+.ph-selo-ativo { background-color: #E9F1E6; color: #2F5A29; }
+.ph-selo-vendido { background-color: #ECEAE3; color: var(--cinza-texto); }
+
+/* Janela "Ver detalhes" */
+.ph-modal .modal-content {
+    overflow: hidden;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 16px;
+}
+
+.ph-modal .modal-header {
+    border: 0;
+    background: linear-gradient(135deg, var(--marrom-escuro), var(--marrom-medio));
+}
+
+.ph-modal .modal-title {
+    color: var(--bege-claro);
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.ph-modal-img {
+    width: 100%;
+    max-height: 220px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    background-color: var(--bege-claro);
+    object-fit: cover;
+}
+
+/* ---------- 11. Carrinho e pedidos (lista de cartões) ---------- */
+.ph-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+}
+
+.ph-item-info {
+    flex: 1 1 180px;
+    min-width: 0;
+}
+
+.ph-item-nome {
+    color: var(--texto-escuro);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ph-item-detalhe {
+    margin-top: 2px;
+    color: var(--cinza-texto);
+    font-size: 0.75rem;
+}
+
+.ph-item-subtotal {
+    color: var(--marrom-escuro);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.ph-qtd {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.ph-qtd-num {
+    min-width: 24px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.ph-resumo-linha {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: var(--cinza-texto);
+    font-size: 0.85rem;
+}
+
+.ph-resumo-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 14px 0 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--cinza-borda);
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+}
+
+.ph-resumo-total strong {
+    color: var(--marrom-escuro);
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+/* Tela vazia (ícone cinza + frase) */
+.ph-vazio {
+    padding: 44px 16px;
+    text-align: center;
+    color: var(--cinza-texto);
+    font-size: 0.9rem;
+}
+
+.ph-vazio i {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--cinza-borda);
+    font-size: 3rem;
+    line-height: 1;
+}
+
+/* ---------- 12. Painel da empresa ---------- */
+.ph-estat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ph-estat-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--bege-claro);
+    color: var(--marrom-escuro);
+    font-size: 1.3rem;
+}
+
+.ph-estat-rotulo {
+    color: var(--cinza-texto);
+    font-size: 0.75rem;
+}
+
+.ph-estat-valor {
+    color: var(--marrom-escuro);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.ph-secao-titulo {
+    margin: 0;
+    color: var(--texto-escuro);
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.ph-tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ph-tabela th {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--cinza-borda);
+    color: var(--cinza-texto);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.ph-tabela td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #ECEAE3;
+    font-size: 0.85rem;
+    vertical-align: middle;
+}
+
+.ph-tabela tr:last-child td {
+    border-bottom: 0;
+}
+
+/* ---------- 13. Rodapé ---------- */
+.ph-rodape {
+    padding: 16px 0;
+    border-top: 1px solid var(--cinza-borda);
+    color: var(--cinza-texto);
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+/* ---------- 14. Telas pequenas ---------- */
+@media (max-width: 991px) {
+    .ph-navbar .navbar-nav {
+        padding-top: 10px;
+    }
+
+    .ph-link {
+        width: 100%;
+    }
+}
