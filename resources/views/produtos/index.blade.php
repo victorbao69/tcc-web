@@ -20,7 +20,7 @@
                     <div class="ph-produto">
 
                         <img class="ph-produto-img" alt="{{ $produto->nome }}"
-                             src="{{ $produto->urlimagem ?: 'https://placehold.co/400x300/F7E9D4/5F3A1A?text=' . urlencode($produto->nome) }}">
+                             src="{{ $produto->imagem_url }}">
 
                         <h5 class="ph-produto-nome">{{ $produto->nome }}</h5>
                         <p class="ph-produto-desc">{{ Str::limit($produto->descricao, 80) }}</p>
@@ -64,7 +64,7 @@
 
                             <div class="modal-body p-4">
                                 <img class="ph-modal-img" alt="{{ $produto->nome }}"
-                                     src="{{ $produto->urlimagem ?: 'https://placehold.co/400x300/F7E9D4/5F3A1A?text=' . urlencode($produto->nome) }}">
+                                     src="{{ $produto->imagem_url }}">
 
                                 <span class="ph-selo mb-3">{{ ucfirst($produto->categoria) }}</span>
 

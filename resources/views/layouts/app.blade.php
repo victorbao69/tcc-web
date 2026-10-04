@@ -87,23 +87,27 @@
         </div>
     </nav>
 
+    {{-- Avisos de sucesso/erro: ficam flutuando no topo da tela, então não empurram nem quebram o layout --}}
+    @if(session('sucesso') || session('erro'))
+        <div class="ph-toast-area">
+            @if(session('sucesso'))
+                <div class="ph-toast ph-toast-sucesso" role="alert">
+                    <i class="bi bi-check-circle"></i>
+                    <span>{{ session('sucesso') }}</span>
+                    <button type="button" class="ph-toast-fechar" aria-label="Fechar">&times;</button>
+                </div>
+            @endif
+            @if(session('erro'))
+                <div class="ph-toast ph-toast-erro" role="alert">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <span>{{ session('erro') }}</span>
+                    <button type="button" class="ph-toast-fechar" aria-label="Fechar">&times;</button>
+                </div>
+            @endif
+        </div>
+    @endif
+
     <div class="ph-main">
-
-        @if(session('sucesso'))
-            <div class="container mt-3">
-                <div class="ph-alerta ph-alerta-sucesso mb-0">
-                    <i class="bi bi-check-circle"></i> {{ session('sucesso') }}
-                </div>
-            </div>
-        @endif
-
-        @if(session('erro'))
-            <div class="container mt-3">
-                <div class="ph-alerta ph-alerta-erro mb-0">
-                    <i class="bi bi-exclamation-circle"></i> {{ session('erro') }}
-                </div>
-            </div>
-        @endif
 
         @yield('content')
     </div>
@@ -115,6 +119,14 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fecha os avisos no botão X ou sozinho depois de 5 segundos
+        document.querySelectorAll('.ph-toast').forEach(function (aviso) {
+            function fechar() { aviso.classList.add('ph-toast-saindo'); setTimeout(function () { aviso.remove(); }, 300); }
+            aviso.querySelector('.ph-toast-fechar').addEventListener('click', fechar);
+            setTimeout(fechar, 5000);
+        });
+    </script>
     @stack('scripts')
 
 </body>
