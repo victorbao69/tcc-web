@@ -26,7 +26,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('adicionar.store') }}">
+                <form method="POST" action="{{ route('adicionar.store') }}" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-3">
@@ -60,7 +60,14 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="ph-rotulo" for="urlimagem">URL da imagem</label>
+                        <label class="ph-rotulo" for="imagem">Imagem do produto</label>
+                        <input id="imagem" type="file" name="imagem" class="ph-input" accept="image/png,image/jpeg,image/webp">
+                        <small style="color: var(--cinza-texto);">JPG, PNG ou WEBP, até 4 MB.</small>
+                        <img id="previaImagem" alt="Prévia da imagem" class="ph-produto-img mt-2" style="display: none; max-width: 240px;">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ph-rotulo" for="urlimagem">Ou use o link de uma imagem (opcional)</label>
                         <input id="urlimagem" type="text" name="urlimagem" class="ph-input" value="{{ old('urlimagem') }}" placeholder="https://...">
                     </div>
 
@@ -85,5 +92,20 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    // Mostra a prévia da imagem escolhida antes de enviar
+    document.getElementById('imagem').addEventListener('change', function () {
+        var previa = document.getElementById('previaImagem');
+        if (this.files && this.files[0]) {
+            previa.src = URL.createObjectURL(this.files[0]);
+            previa.style.display = 'block';
+        } else {
+            previa.style.display = 'none';
+        }
+    });
+</script>
+@endpush
 
 @endsection

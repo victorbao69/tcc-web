@@ -26,7 +26,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('produtos.update', $produto) }}">
+                <form method="POST" action="{{ route('produtos.update', $produto) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -57,9 +57,27 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="ph-rotulo" for="urlimagem">URL da imagem</label>
-                        <input id="urlimagem" type="text" name="urlimagem" class="ph-input" value="{{ old('urlimagem', $produto->urlimagem) }}">
+                        <label class="ph-rotulo">Imagem atual</label>
+                        <img id="previaImagem" src="{{ $produto->imagem_url }}" alt="{{ $produto->nome }}" class="ph-produto-img" style="max-width: 240px;">
                     </div>
+
+                    <div class="mb-3">
+                        <label class="ph-rotulo" for="imagem">Trocar imagem</label>
+                        <input id="imagem" type="file" name="imagem" class="ph-input" accept="image/png,image/jpeg,image/webp">
+                        <small style="color: var(--cinza-texto);">JPG, PNG ou WEBP, até 4 MB. Deixe vazio para manter a atual.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ph-rotulo" for="urlimagem">Ou use o link de uma imagem (opcional)</label>
+                        <input id="urlimagem" type="text" name="urlimagem" class="ph-input" value="{{ old('urlimagem', str_starts_with((string) $produto->urlimagem, 'http') ? $produto->urlimagem : '') }}" placeholder="https://...">
+                    </div>
+
+                    @if($produto->urlimagem)
+                        <div class="mb-3 form-check">
+                            <input id="remover_imagem" type="checkbox" name="remover_imagem" value="1" class="form-check-input">
+                            <label class="form-check-label" for="remover_imagem">Remover a imagem</label>
+                        </div>
+                    @endif
 
                     <div class="mb-4">
                         <label class="ph-rotulo" for="status">Status</label>
@@ -90,5 +108,16 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    // Mostra a prévia da imagem escolhida; se desistir, volta a imagem atual
+    var previa = document.getElementById('previaImagem');
+    var imagemAtual = previa.src;
+    document.getElementById('imagem').addEventListener('change', function () {
+        previa.src = (this.files && this.files[0]) ? URL.createObjectURL(this.files[0]) : imagemAtual;
+    });
+</script>
+@endpush
 
 @endsection

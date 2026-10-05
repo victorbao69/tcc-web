@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable(['name', 'email', 'password', 'tipousuario'])]
+#[Fillable(['name', 'email', 'password', 'tipousuario', 'telefone', 'endereco'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * Get the attributes that should be cast.
@@ -37,6 +38,11 @@ class User extends Authenticatable
     public function pedidos()
     {
         return $this->hasMany(Pedido::class, 'user_id');
+    }
+
+    public function carrinhoItens()
+    {
+        return $this->hasMany(CarrinhoItem::class, 'user_id');
     }
 
     public function ehEmpresa(): bool
