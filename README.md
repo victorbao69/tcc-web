@@ -26,23 +26,51 @@ Pré-requisitos: PHP 8.2+, Composer.
    No Windows (PowerShell): `New-Item database/database.sqlite -ItemType File`
 5. Crie as tabelas e os dados de exemplo:
    ```
-   php artisan migrate --seed
+   # Defina ADMIN_EMAIL e ADMIN_PASSWORD no .env antes de semear o banco.
+   php artisan migrate:fresh --seed
    ```
+   (`migrate:fresh` **apaga tudo** do banco e recria as tabelas; o `--seed` cria só o
+   administrador. Use esse comando também para limpar o banco atual.)
 6. Inicie o servidor:
    ```
    php artisan serve
    ```
 7. Abra http://127.0.0.1:8000 no navegador.
 
-Contas de teste (criadas pelo seeder), senha `123456`:
+O banco já nasce **limpo**: sem produtos e sem usuários, só o administrador configurado
+com `ADMIN_EMAIL` e `ADMIN_PASSWORD` no `.env`.
 
-| Tipo    | E-mail            |
-|---------|-------------------|
-| Empresa | admin@email.com   |
-| Cliente | cliente@email.com |
+Clientes e empresas são criados em **Criar conta** (menu do site). Para trocar a senha do
+administrador, atualize `ADMIN_PASSWORD` no `.env` e rode `php artisan migrate:fresh --seed`.
 
 > Não precisa rodar `npm install` nem `npm run dev`: o visual usa só o
 > `public/css/styles.css` (Bootstrap) + `public/css/planhome.css` (tema novo).
+
+## Administrador (novo)
+
+Entre com os valores de `ADMIN_EMAIL` e `ADMIN_PASSWORD` do `.env`. O login leva direto para **/admin**, uma tela
+única com duas tabelas (usuários e produtos), cada linha com o botão **Excluir**.
+
+- **A exclusão é definitiva**: as linhas são apagadas do banco de dados (com confirmação antes).
+- **Excluir produto:** apaga o produto, a imagem enviada, os itens de carrinho e os pedidos
+  que usavam esse produto.
+- **Excluir conta de empresa:** apaga a empresa, todos os produtos dela e o que dependia deles.
+- **Excluir conta de cliente:** apaga a conta, o carrinho, os pedidos, os tokens do app e as sessões.
+- O administrador não pode excluir a si mesmo nem outro administrador, e só ele acessa `/admin`
+  (qualquer outro usuário recebe erro 403). O cadastro público só cria cliente e empresa.
+- **Avisos:** quando um produto é excluído, quem tinha ele no carrinho ou em pedidos (e a empresa dona)
+  vê, na próxima página que abrir, a mensagem *"O produto "X" ... foi excluído pelo administrador"*.
+  O aviso fica na tabela `avisos` e some depois de mostrado (só fecha no X).
+- A conta de administrador não aparece como cliente/empresa: não tem carrinho nem pedidos
+  e não entra pelo app mobile (a API responde 403).
+
+Arquivos: `app/Http/Controllers/AdminController.php`, `app/Http/Middleware/EhAdmin.php` (apelido `admin`
+em `bootstrap/app.php`), `app/Models/Aviso.php`, `resources/views/admin/index.blade.php`,
+`database/seeders/AdminSeeder.php`, migration `2026_10_21_000000_create_avisos_table.php`
+e o valor `admin` no campo `tipousuario` (migration `0001_01_01_000000_create_users_table.php`).
+
+> Como o campo `tipousuario` mudou na migration original, é preciso rodar
+> `php artisan migrate:fresh --seed` (também na hospedagem) em vez de só `migrate`.
 
 ## Novidades desta versão
 
@@ -144,8 +172,8 @@ ou **Thunder Client** (todos importam esse formato). São 34 requisições em or
 login → token → catálogo (lista, filtro, um produto) → carrinho (colocar, somar, trocar,
 retirar, finalizar) → pedidos → sem token (`401`) → inexistente (`404`) → cancelar (`204`) etc. Cada uma já tem o teste do status esperado.
 Variável `base_url` da coleção: `http://127.0.0.1:8000/api/v1` (troque para testar o site publicado).
-Rode o site com `php artisan serve` e o banco com `php artisan migrate --seed`
-(cliente de teste: `cliente@email.com` / `123456`).
+Rode o site com `php artisan serve` e o banco com `php artisan migrate:fresh --seed`
+(com o banco limpo, crie antes um cliente em **Criar conta** ou pelo `POST /api/v1/register`, e uma empresa com ao menos um produto ativo).
 
 ## O que mudou no visual
 

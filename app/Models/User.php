@@ -49,4 +49,14 @@ class User extends Authenticatable
     {
         return $this->tipousuario === 'empresa';
     }
+
+    public function ehAdmin(): bool
+    {
+        return $this->tipousuario === 'admin';
+    }
+
+    public function ehCliente(): bool
+    {
+        return $this->tipousuario === 'cliente';
+    }
 }

@@ -40,7 +40,13 @@
                     </li>
 
                     @auth
-                        @if(auth()->user()->ehEmpresa())
+                        @if(auth()->user()->ehAdmin())
+                            <li class="nav-item">
+                                <a class="ph-link {{ request()->routeIs('admin*') ? 'ativo' : '' }}" href="{{ route('admin') }}">
+                                    <i class="bi bi-shield-lock"></i> Administração
+                                </a>
+                            </li>
+                        @elseif(auth()->user()->ehEmpresa())
                             <li class="nav-item">
                                 <a class="ph-link {{ request()->routeIs('empresas*', 'adicionar*', 'produtos.edit') ? 'ativo' : '' }}" href="{{ route('empresas') }}">
                                     <i class="bi bi-speedometer2"></i> Painel
@@ -88,9 +94,24 @@
         </div>
     </nav>
 
+    {{-- Avisos deixados pelo administrador (ex: produto excluído). Aparecem uma vez e são apagados. --}}
+    @php
+        $avisos = auth()->check() ? \App\Models\Aviso::where('user_id', auth()->id())->orderBy('id')->get() : collect();
+        if ($avisos->isNotEmpty()) {
+            \App\Models\Aviso::whereIn('id', $avisos->pluck('id'))->delete();
+        }
+    @endphp
+
     {{-- Avisos de sucesso/erro: ficam flutuando no topo da tela, então não empurram nem quebram o layout --}}
-    @if(session('sucesso') || session('erro'))
+    @if(session('sucesso') || session('erro') || $avisos->isNotEmpty())
         <div class="ph-toast-area">
+            @foreach($avisos as $aviso)
+                <div class="ph-toast ph-toast-erro ph-toast-fixo" role="alert">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <span>{{ $aviso->mensagem }}</span>
+                    <button type="button" class="ph-toast-fechar" aria-label="Fechar">&times;</button>
+                </div>
+            @endforeach
             @if(session('sucesso'))
                 <div class="ph-toast ph-toast-sucesso" role="alert">
                     <i class="bi bi-check-circle"></i>
@@ -125,7 +146,8 @@
         document.querySelectorAll('.ph-toast').forEach(function (aviso) {
             function fechar() { aviso.classList.add('ph-toast-saindo'); setTimeout(function () { aviso.remove(); }, 300); }
             aviso.querySelector('.ph-toast-fechar').addEventListener('click', fechar);
-            setTimeout(fechar, 5000);
+            // Avisos do administrador ficam até o usuário fechar no X
+            if (! aviso.classList.contains('ph-toast-fixo')) { setTimeout(fechar, 5000); }
         });
     </script>
     @stack('scripts')

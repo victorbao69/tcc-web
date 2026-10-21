@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "PlanHome API (Laravel + Sanctum)",
-    "description": "Roteiro de testes da API do app mobile (catálogo, carrinho, pedidos, conta). Rode a coleção inteira em ordem (Runner/Run All) ou clique request por request. Antes: php artisan serve e um cliente (cliente@email.com / 123456) e ao menos um produto ativo no banco.",
+    "description": "Roteiro de testes da API do app mobile (catálogo, carrinho, pedidos, conta). Rode a coleção inteira em ordem (Runner/Run All) ou clique request por request. Antes: php artisan serve, um cliente cadastrado (cliente@email.com / 123456, crie pelo site ou por POST /api/v1/register) e ao menos um produto ativo (crie por uma conta de empresa no site).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {

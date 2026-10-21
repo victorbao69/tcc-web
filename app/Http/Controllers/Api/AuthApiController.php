@@ -60,6 +60,10 @@ class AuthApiController extends Controller
             return response()->json(['message' => 'Contas de empresa só podem entrar pelo site.'], 403);
         }
 
+        if ($user->ehAdmin()) {
+            return response()->json(['message' => 'A conta de administrador só pode entrar pelo site.'], 403);
+        }
+
         $token = $user->createToken('app-flutter')->plainTextToken;
 
         return response()->json([

@@ -35,7 +35,7 @@
                             </button>
 
                             @auth
-                                @if(! auth()->user()->ehEmpresa())
+                                @if(auth()->user()->ehCliente())
                                     <form action="{{ route('carrinho.adicionar', $produto) }}" method="POST" class="m-0">
                                         @csrf
                                         <button type="submit" class="ph-btn ph-btn-primario ph-btn-pequeno">
@@ -76,7 +76,7 @@
                                     </span>
 
                                     @auth
-                                        @if(! auth()->user()->ehEmpresa())
+                                        @if(auth()->user()->ehCliente())
                                             <form action="{{ route('carrinho.adicionar', $produto) }}" method="POST" class="m-0">
                                                 @csrf
                                                 <button type="submit" class="ph-btn ph-btn-primario">

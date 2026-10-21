@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect($user->ehEmpresa() ? '/empresas' : '/produtos');
+        return redirect($this->paginaInicial($user));
     }
 
     public function login(Request $request)
@@ -57,7 +57,17 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect(auth()->user()->ehEmpresa() ? '/empresas' : '/produtos');
+        return redirect($this->paginaInicial(auth()->user()));
+    }
+
+    // Para onde cada tipo de usuário vai depois de entrar
+    private function paginaInicial(User $user): string
+    {
+        if ($user->ehAdmin()) {
+            return '/admin';
+        }
+
+        return $user->ehEmpresa() ? '/empresas' : '/produtos';
     }
 
     public function logout(Request $request)

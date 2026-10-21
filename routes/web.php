@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\EmpresaController;
@@ -32,6 +33,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos');
     Route::put('/pedidos/{pedido}', [PedidoController::class, 'update'])->name('pedidos.update');
     Route::delete('/pedidos/{pedido}', [PedidoController::class, 'destroy'])->name('pedidos.destroy');
+
+    // Rotas restritas ao administrador (tela única em /admin)
+    Route::middleware('admin')->prefix('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('admin');
+        Route::delete('/usuarios/{user}', [AdminController::class, 'excluirUsuario'])->name('admin.usuarios.destroy');
+        Route::delete('/produtos/{produto}', [AdminController::class, 'excluirProduto'])->name('admin.produtos.destroy');
+    });
 
     // Rotas restritas a usuários do tipo "empresa"
     Route::middleware('empresa')->group(function () {

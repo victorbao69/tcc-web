@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'empresa' => \App\Http\Middleware\EhEmpresa::class,
+            'admin' => \App\Http\Middleware\EhAdmin::class,
         ]);
 
         $middleware->redirectGuestsTo(fn () => route('welcome'));
